@@ -1,3 +1,17 @@
-The documents put on this repository are (c) Natural Resource Governance Institute (NRGI).
+This file is part of Collab LS - a collaborative, multi-researcher workflow system for LimeSurvey.
 
-Note: There is currently internal discussion within NRGI on the license of this work. It will likely be covered by a FLOSS license such as the GPL v2 or more recent.
+    Collab LS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+PURPOSE
+    Collab LS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details. Collab LS
+    is (c) NRGI, Mayeul Kauffmann and Denis Chenu
+
+    You should have received a copy of the GNU Affero General Public License
+    along with Collab LS.  If not, see <http://www.gnu.org/licenses/>.
+
