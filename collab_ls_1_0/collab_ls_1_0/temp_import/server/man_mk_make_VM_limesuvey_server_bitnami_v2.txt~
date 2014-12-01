@@ -1,0 +1,397 @@
+# Make a virtual machine for a Limesurvey server
+# Based on  Bitnami
+# See https://bitnami.com/stack/lapp/README.txt
+# the above file shows the path of some folders, under /opt/bitnami :
+
+ manager-linux.run: Graphical tool to manage the servers easily
+   ctlscript.sh: Script to manage the servers
+   uninstall: Uninstaller
+   use_lappstack: Script to load the stack environment
+
+   apache2/: Apache Web server.
+   php/: PHP Scripting Language.
+   postgresql/: PostgreSQL Database.
+   common/: common libraries.
+   varnish/: Varnish cache server (disabled by default)
+   sqlite/: SQLite database server
+   licenses/: Licenses of the components included in LAPP stack.
+   frameworks/: PHP frameworks selected during the installation
+   docs/: Documents for creating a custom application
+   apps/
+	phpPgAdmin/: Management tool for PostgreSQL
+
+
+see /opt/bitnami/docs/README.txt
+
+cd /opt/bitnami 
+sudo ./ctlscript.sh start
+
+Download Bitnami stack
+
+mkdir -p ~/bin/limesurvey/
+https://bitnami.com/stack/lapp/virtual-machine
+
+Install VirtualBox, launch it.
+Create a Linux Ubuntu 64 bits host called limesurvey_v01
+1024 Mo RAm
+Network settings: Bridged Adapter (Promiscuous Mode: Deny); eth0
+Use the existing (Downloaded) hard drive
+bitnami-lappstack-5.4.32-0-ubuntu-14.04.vmdk
+Check that the Network configuration is "Bridged Adapter" to have access from remote machines in your network
+Boot the VM
+WIll be prompted to change the password, do it
+
+
+
+Install Virtualbox guest addons (device menu/Guest CD)
+~/.VirtualBox/VBoxGuestAdditions_4.3.10.iso
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install xfce4 # uses 320 Mo once installed
+# xubtuntu-desktop would need 1.3 GO more
+startx
+# Go to Applications Menu > Settings > Apparence >icons, choose an icon them (otherwise no icons)
+Change keyboard layout if needed
+Menu Settings > screensaver> deactivate or Black (otherwise uses a lot of CPU)
+# to use the mouse outside of the VM: CTRL ALt Supp
+# leafpad geany are 2 light text editor for Xfce
+sudo apt-get install xfce4  virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 virtualbox-guest-additions-iso
+sudo reboot now
+
+virtualbox-guest-additions-iso
+adds this:
+/usr/share/virtualbox/VBoxGuestAdditions.iso
+
+http://www.binarytides.com/vbox-guest-additions-ubuntu-14-04/
+
+http://superuser.com/questions/732971/virtualbox-no-suitable-module-for-running-kernel-found
+
+
+sudo apt-get install virtualbox-source module-assistant
+sudo m-a prepare 
+sudo m-a a-i virtualbox-source
+ /etc/init.d/virtualbox start 
+sudo mount -o loop /usr/share/virtualbox/VBoxGuestAdditions.iso /media/cdvbox
+
+cd /media/cdvbox
+sudo ./VBoxLinuxAdditions.run
+# add user to vboxsf group for access to shared folders in /media/sf*
+sudo usermod -aG vboxsf $(whoami)
+#reboot; or logout even from command line (after logout from X)
+
+sudo apt-get install xfce4 leafpad geany lxterminal pgadmin3 dillo 
+
+==================================
+# Install and configure firewall  (ufw; with gui: gufw)
+
+# https://help.ubuntu.com/14.04/serverguide/firewall.html
+# https://help.ubuntu.com/community/UFW
+# https://wiki.ubuntu.com/UncomplicatedFirewall
+
+sudo apt-get install gufw python-gobject
+
+
+
+
+# 10 October 2014
+sudo ufw logging medium
+sudo ufw allow from 192.168.1.0/24 to any port 80 proto tcp
+sudo ufw allow from 192.168.1.0/24 to any port 5435 proto tcp
+sudo ufw allow from 192.168.1.0/24 to any port 5435 proto udp
+sudo ufw status verbose
+
+sudo ls /var/log/ufw*
+cat /var/log/ufw.log
+
+# TODO add names to these rules from the command line
+# BELOW IS A DRAFT !!!!
+# For agatha and berenice
+# sudo ufw allow from 192.168.1.0/24 to any port 21 proto tcp # ftp
+sudo ufw allow from 192.168.1.0/24 to any port 22 proto tcp # ssh
+sudo ufw allow from 192.168.1.0/24 to any port 80:84 proto tcp # http
+# sudo ufw allow from 192.168.1.0/24 to any port 443 proto tcp # https
+sudo ufw allow from 192.168.1.0/24 to any port 3306:3307 proto tcp # MySQL
+sudo ufw allow from 192.168.1.0/24 to any port 3306:3307 proto udp # MySQL
+sudo ufw allow from 192.168.1.0/24 to any port 5432:5436 proto tcp # postgreSQL
+sudo ufw allow from 192.168.1.0/24 to any port 5432:5436 proto udp # postgreSQL
+sudo ufw allow from 192.168.1.0/24 to any port 5900 proto tcp
+# sudo ufw allow from 192.168.1.0/24 to any port 8080:8082 proto tcp # http
+# sudo ufw allow from 192.168.1.0/24 to any port 9418 proto tcp # git
+
+# For the host, not the guest:
+# sudo ufw allow from 192.168.1.0/24 to any port 24800 proto tcp  # synergy
+
+### TODO: block some outgoing ports
+# Following not done, suggested by http://debianhelp.wordpress.com/2012/10/02/crunchbang-11-waldorf-debian-wheezy-os/
+To block outgoing ports except those needed (This configuration will allow the following outbound ports: 20-21, 53, 80, 123, 443, which is all that is required for many users, unless you plan on running a server):
+
+sudo ufw deny out 1:19/tcp
+sudo ufw deny out 1:19/udp
+sudo ufw deny out 22:52/tcp
+sudo ufw deny out 22:52/udp
+sudo ufw deny out 54:79/tcp
+sudo ufw deny out 54:79/udp
+sudo ufw deny out 81:122/tcp
+sudo ufw deny out 81:122/udp
+sudo ufw deny out 124:442/tcp
+sudo ufw deny out 124:442/udp
+sudo ufw deny out 444:65535/tcp
+sudo ufw deny out 444:65535/udp
+
+##################
+
+
+sudo  apt-get install openssh-server # was already installed
+# https://help.ubuntu.com/community/SSH/OpenSSH/Configuring
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.factory-defaults
+sudo chmod a-w /etc/ssh/sshd_config.factory-defaults
+sudo leafpad /etc/ssh/sshd_config
+# FIXME TODO more work needed to configure properly: new user (not root) to have access.
+
+21  # ftp
+22  # ssh
+80:84  # http
+443  # https
+3306:3307  # MySQL
+3306:3307  # MySQL
+5432:5436  # postgreSQL
+5432:5436  # postgreSQL
+8080:8082  # http
+9418 proto  # git
+
+
+sudo ufw allow from 192.168.1.0/24 to any port 21:22
+sudo ufw allow tcp from 192.168.1.0/24 to any port 80:84
+sudo ufw allow tcp  from 192.168.1.0/24 to any port 8080:8082
+sudo ufw allow prot any from 192.168.1.0/24 to any port 5432:5435
+sudo ufw allow  prot any  from 192.168.1.0/24 to any port 3306:3307
+
+sudo ufw allow from 192.168.1.0/24 to any port 
+
+
+
+==================================
+
+
+
+On startup,  the VM displays a message with the IP. THe machine is available on the local network. With link to
+http://wiki.bitnami.com/Components/phpMyAdmin_and_phpPgAdmin?utm_source=bitnami&utm_medium=virtualmachine&utm_campaign=Virtual%2BMachine
+If you are running the Virtual Appliance in a secure environment, you can enable it by editing the "/opt/bitnami/apps/phpmyadmin/conf/httpd-app.conf" file and replace "Allow from 127.0.0.1" with "Allow from all" (if your server is running Apache 2.2) or "Require local" with "Require all granted" (if you server is running Apache 2.4 or later)  
+(CHANGE MADE - not secure for external server?)
+Then you should restart Apache to load the changes:
+
+cd /opt/bitnami
+sudo ./ctlscript.sh restart apache
+
+Then you can access at the same URL with  /phppgadmin
+user: postgres  pass: bitnami
+
+Compile postgres to support 1000s+ columns, see http://www.postgresql.org/message-id/53F4D326.8050508@free.fr
+========================================
+check http://manual.limesurvey.org/Installation#Hosting_for_LimeSurvey
+
+-----
+Check php modules and libraries:
+php -m
+OR (un sure)
+Put this in /opt/bitnami/apache2/htdocs/
+<?php phpinfo(); ?>
+
+sudo cp /media/sf_limesurvey/server/phpinfo.php /opt/bitnami/apache2/htdocs/phpinfo.php
+chown  apache
+sudo chown user-apache: /opt/bitnami/apache2/htdocs/phpinfo.php
+
+sudo chmod  644 /opt/bitnami/apache2/htdocs/phpinfo.php
+
+sudo rm -R /opt/bitnami/apache2/htdocs/limesurvey
+
+cd ~/bin
+wget http://www.limesurvey.org/en/stable-release/finish/25-latest-stable-release/1163-limesurvey205plus-build140911-tar-gz
+tar -zxvf 	1163-limesurvey205plus-build140911-tar-gz --directory /opt/bitnami/apache2/htdocs/
+# sudo mv /opt/bitnami/apache2/htdocs/limesurvey /opt/bitnami/apache2/htdocs/ls
+
+# sudo chmod -R 775 /opt/bitnami/apache2/htdocs/limesurvey
+# FIXME make sure bitnami is the correct user here. The stack has no user named apache.
+# sudo chown -R root /opt/bitnami/apache2/htdocs/limesurvey
+# sudo chown -R www-data /opt/bitnami/apache2/htdocs/limesurvey
+#sudo chown -R www-data:www-data /opt/bitnami/apache2/htdocs/limesurvey
+# http://wiki.bitnami.com/BitNami_Cloud_Hosting/Servers/Access_your_machine#Files_writable_by_the_web_server
+sudo chown -R bitnami:daemon /opt/bitnami/apache2/htdocs/limesurvey
+sudo chmod -R g+w /opt/bitnami/apache2/htdocs/limesurvey
+
+# THE above worked only after restarting the VM...
+
+
+ sudo su postgres -c '/usr/local/pgsql_patched_3_64/bin/pg_ctl -D /usr/local/pgsql_patched_3_64/data_blcksz32 -o "-p 5435" -m fast start'
+
+/usr/local/pgsql_patched_3_64/
+
+# this ends up starting a pg server on port 5433...
+sudo apt-get install postgresql-contrib
+# sudo su postgres -c "psql -p 5435 < /usr/share/postgresql/9.3/extension/adminpack--1.0.sql"
+sudo cp /usr/share/postgresql/9.3/extension/admin* /usr/local/pgsql_patched_3_64/share/extension/
+# then in sql: CREATE EXTENSION adminpack;
+# not enough. complains "could not access file "$libdir/adminpack": No such file or directory"
+
+
+
+# Have a db for statistical data, etc.
+CREATE DATABASE statdb
+  WITH ENCODING='UTF8'
+       OWNER=postgres
+       CONNECTION LIMIT=-1;
+       
+       
+# FIXME : to improve. Also need to launch this from client
+/usr/bin/pg_dump --host 192.168.1.106 --port 5435 --username "postgres" --no-password  --format custom --blobs --inserts --column-inserts --verbose --file "~/test_backup_postgres" "statdb"
+
+
+# http://askubuntu.com/questions/256534/how-do-i-find-the-path-to-pg-hba-conf-from-the-shell
+SHOW hba_file; -- find the file
+sudo leafpad /usr/local/pgsql_patched_3_64/data_blcksz32/pg_hba.conf
+#added by Mayeul Kauffmann
+host	all		all		192.168.1.0/24	md5
+
+sudo leafpad /usr/local/pgsql_patched_3_64/data_blcksz32/postgresql.conf
+# modify listen_addresses:
+listen_addresses = '*'
+
+# start the pg server at bootup http://superuser.com/a/126127
+sudo leafpad /etc/init.d/start_pg_blcksz32_p5435
+##########################################"
+#!/bin/sh
+
+case "$1" in
+start)
+    su postgres -c '/usr/local/pgsql_patched_3_64/bin/pg_ctl -D /usr/local/pgsql_patched_3_64/data_blcksz32 -o "-p 5435" start'
+    ;;
+stop)
+    su postgres -c '/usr/local/pgsql_patched_3_64/bin/pg_ctl -D /usr/local/pgsql_patched_3_64/data_blcksz32 -o "-p 5435" stop'
+    ;;
+
+restart)
+    su postgres -c '/usr/local/pgsql_patched_3_64/bin/pg_ctl -D /usr/local/pgsql_patched_3_64/data_blcksz32 -o "-p 5435" restart'
+    ;;
+fast-restart)
+    su postgres -c '/usr/local/pgsql_patched_3_64/bin/pg_ctl -D /usr/local/pgsql_patched_3_64/data_blcksz32 -o "-p 5435" -m fast restart'
+    ;;
+*)
+    echo "usage: $0 (start|stop|restart|fast-restart)"
+;;
+esac
+##########################################"
+sudo chmod +x /etc/init.d/start_pg_blcksz32_p5435
+# http://superuser.com/a/126127
+sudo touch /etc/rc3.d/S21start_pg_blcksz32_p5435
+sudo touch /etc/rc6.d/K21start_pg_blcksz32_p5435
+sudo ln -s /etc/init.d/start_pg_blcksz32_p5435 /etc/rc2.d/S21start_pg_blcksz32_p5435
+sudo ln -s /etc/init.d/start_pg_blcksz32_p5435 /etc/rc6.d/K21start_pg_blcksz32_p5435
+sudo rm /etc/rc6.d/K21start_pg_blcksz32_p5435
+sudo rm /etc/rc3.d/S21start_pg_blcksz32_p5435
+
+# above does not work....
+# http://manpages.ubuntu.com/manpages/hardy/man8/update-rc.d.8.html
+sudo update-rc.d start_pg_blcksz32_p5435 defaults
+
+### Add a new server to phppgadmin
+sudo leafpad /opt/bitnami/apps/phppgadmin/htdocs/conf/config.inc.php
+# Add this:
+// Display name for the server on the login screen
+	$conf['servers'][1]['desc'] = 'PostgreSQL blocksize32';
+	// Hostname or IP address for server.  Use '' for UNIX domain socket.
+	// use 'localhost' for TCP/IP connection on this computer
+	$conf['servers'][1]['host'] = 'localhost';
+	// Database port on server (5432 is the PostgreSQL default)
+	$conf['servers'][1]['port'] = 5435;
+	// Database SSL mode
+	// Possible options: disable, allow, prefer, require
+	// To require SSL on older servers use option: legacy
+	// To ignore the SSL mode, use option: unspecified
+	$conf['servers'][1]['sslmode'] = 'allow';
+	// Change the default database only if you cannot connect to template1.
+	// For a PostgreSQL 8.1+ server, you can set this to 'postgres'.
+	$conf['servers'][1]['defaultdb'] = 'postgres';
+	// Specify the path to the database dump utilities for this server.
+	// You can set these to '' if no dumper is available.
+	$conf['servers'][1]['pg_dump_path'] = '/usr/local/pgsql_patched_3_64/bin/pg_dump';
+	$conf['servers'][1]['pg_dumpall_path'] = '/usr/local/pgsql_patched_3_64/bin/pg_dumpall';
+
+CREATE USER mkauffmann WITH PASSWORD 'test_password';
+CREATE USER ahasemann WITH PASSWORD 'test_password';
+GRANT ALL PRIVILEGES ON DATABASE "statdb" to ahasemann;
+GRANT ALL PRIVILEGES ON                  SCHEMA ahasemann TO ahasemann;
+
+# 2 possible connection strings for LibreOffice base:
+# http://www.postgresql.org/docs/9.3/static/libpq-connect.html#LIBPQ-CONNSTRING
+# http://www.postgresql.org/docs/9.3/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS
+postgresql://192.168.1.106:5435/statdb
+dbname=statdb hostaddr=192.168.1.106 port=5435 user=ahasemann password=*****
+
+# HINT: The "-m fast" option immediately disconnects sessions rather than
+# waiting for session-initiated disconnection.
+sudo su postgres -c '/usr/local/pgsql_patched_3_64/bin/pg_ctl -D /usr/local/pgsql_patched_3_64/data_blcksz32 -o "-p 5435" -m fast stop'
+
+sudo apt-get install htop
+
+
+# NOTE: templates here cannot be modified via the web GUI: /opt/bitnami/apache2/htdocs/limesurvey/templates/
+# User created templates can go here, where they can be modified by the GUI interface: 
+# /opt/bitnami/apache2/htdocs/limesurvey/upload/templates/
+sudo rm -R /opt/bitnami/apache2/htdocs/limesurvey/templates/default_modified_for_test_ajax_call
+sudo rm -R /opt/bitnami/apache2/htdocs/limesurvey/upload/templates/default_modified_for_test_ajax_call
+
+
+# NOT needed:
+#sudo cp -R  /media/sf_limesurvey/templates/default_modified_for_test_ajax_call /opt/bitnami/apps/limesurvey/templates/
+# sudo chown -R bitnami:daemon /opt/bitnami/apps/limesurvey/templates/
+
+#actually not Needed:
+sudo cp -R  /media/sf_limesurvey/templates/default_modified_for_test_ajax_call /opt/bitnami/apache2/htdocs/limesurvey/templates/
+sudo rm -R /opt/bitnami/apache2/htdocs/limesurvey/templates/default_modified_for_test_ajax_call
+
+# the right place to put the templates is: (or using the php admin page http://192.168.1.106/limesurvey/index.php/admin/templates/sa/upload )
+sudo cp -R  /media/sf_limesurvey/templates/default_modified_for_test_ajax_call /opt/bitnami/apache2/htdocs/limesurvey/upload/templates/
+sudo chown -R bitnami:daemon /opt/bitnami/apache2/htdocs/limesurvey/upload/templates/default_modified_for_test_ajax_call
+
+/opt/bitnami/apache2/htdocs/limesurvey/upload/templates/default_modified_for_test_ajax_call/startpage.pstpl is not writable
+
+
+#### What follows is garbage...
+
+
+sudo tar -zxvf 	1163-limesurvey205plus-build140911-tar-gz --directory /opt/bitnami/apps
+
+sudo mv /opt/bitnami/apache2/htdocs/limesurvey  /opt/bitnami/apps/
+sudo chown -R bitnami /opt/bitnami/apps/limesurvey
+sudo chmod -R 755  /opt/bitnami/apps/limesurvey
+
+sudo chown -Rf www-data /opt/bitnami/apps/limesurvey
+
+
+
+# GIVING UP.....
+cd ~/bin
+wget https://bitnami.com/redirect/to/40823/bitnami-limesurvey-20140911-0-linux-x64-installer.run
+chmod a+x ./bitnami-limesurvey-20140911-0-linux-x64-installer.run
+sudo ./bitnami-limesurvey-20140911-0-linux-x64-installer.run
+# agree to install here:
+# /opt/limesurvey-20140911-0
+/opt/limesurvey-20140911-1   ports 82 and 445  mysql 3307
+login: mkauffmann
+pass: celui pour limesurvey
+port 81
+SSL 444
+SMTP: used mkauffmann@resourcegovernance.org  (FIXME: may be visible to others as saved in the application config files)
+
+
+sudo rm -R /opt/limesurvey-20140911-0/apps
+cd ~/bin
+wget http://www.limesurvey.org/en/stable-release/finish/25-latest-stable-release/1163-limesurvey205plus-build140911-tar-gz
+sudo mkdir -p /opt/limesurvey-20140911-0/apps
+
+sudo tar -zxvf 	1163-limesurvey205plus-build140911-tar-gz --directory /opt/limesurvey-20140911-0/apps/
+sudo chown -R www-data /opt/limesurvey-20140911-0/apps/limesurvey
+sudo chmod -R 775  /opt/limesurvey-20140911-0/apps/limesurvey
+
+

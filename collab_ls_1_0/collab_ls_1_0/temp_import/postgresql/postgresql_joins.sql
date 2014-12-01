@@ -1,0 +1,3 @@
+select t_2000.f0001, t_2000.f0002,t_2001.f0001,t_2001.f0002  FROM t_2000 INNER JOIN t_2001 ON  t_2000.f0001 = t_2001.f0001;
+
+select * FROM t_2000, t_2001 where t_2000.f0001 = t_2001.f0001;

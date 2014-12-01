@@ -1,0 +1,10 @@
+tid,firstname,lastname,email,emailstatus,token,language,validfrom,validuntil,invited,reminded,remindercount,completed,usesleft, Attribute_1 <role>, Attribute_2 <role_sort_order>, Attribute_3 <role_priority>, Attribute_4 <contributor_rights>, Attribute_5 <comment_on_contributor>, Attribute_7 <instructions_to_contributor>, Attribute_8 <country>, Attribute_9 <resource>, Attribute_10 <country_step>, Attribute_11 <comment_on_country_step>, Attribute_12 <contributes_in_step_1>, Attribute_13 <contributes_in_step_2>, Attribute_14 <contributes_in_step_3>, Attribute_15 <contributes_in_step_4>, Attribute_16 <contributes_in_step_5>
+1,MexRes,,rgi_researcher_2015@yahoo.com,OK,ab,en,,,N,N,0,N,1,researcher,10,10,rw,Email password: Rgi_2015,Please answer in Spanish or Portuguese.,Mexico,minerals,0,,yes,,yes,,yes
+2,MexRev,,rgi_researcher_2015@yahoo.com,OK,cd,en,,,N,N,0,N,1,reviewer,20,20,,Will be on leave in March,Please answer in Spanish or Portuguese.,Mexico,minerals,0,,,,,yes,yes
+3,MexSup,,rgi_researcher_2015@yahoo.com,OK,ef,en,,,N,N,0,N,1,supervisor,30,100,,,,Mexico,minerals,0,,,yes,yes,,yes
+4,PetroRes,,rgi_researcher_2015@yahoo.com,OK,AB,en,,,N,N,0,N,1,researcher,10,10,rw,,,Mexico,oil and gas,0,,,,,,
+5,PetroRev,,rgi_researcher_2015@yahoo.com,OK,CD,en,,,N,N,0,N,1,reviewer,20,20,,Will be on leave in March,,Mexico,oil and gas,0,,,,,,
+6,PetroSup,,rgi_researcher_2015@yahoo.com,OK,EF,en,,,N,N,0,N,1,supervisor,30,100,,,,Mexico,oil and gas,0,,,,,,
+7,GhaRes,,rgi_researcher_2015@yahoo.com,OK,12,en,,,N,N,0,N,1,researcher,10,10,rw,,,Ghana,minerals,0,,,,,,
+8,GhaRev,,rgi_researcher_2015@yahoo.com,OK,34,en,,,N,N,0,N,1,reviewer,20,20,,,,Ghana,minerals,0,,,,,,
+9,GhaSup,,rgi_researcher_2015@yahoo.com,OK,56,en,,,N,N,0,N,1,supervisor,30,100,,,,Ghana,minerals,0,,,,,,

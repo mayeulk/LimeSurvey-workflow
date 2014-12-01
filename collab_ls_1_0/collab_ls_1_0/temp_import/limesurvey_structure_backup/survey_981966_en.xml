@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionnaire id="981966">
+  <title>RGI 2015 Test Survey</title>
+  <investigator/>
+  <dataCollector/>
+  <section id="2">
+    <sectionInfo>
+      <position>title</position>
+      <text>Flag</text>
+      <administration>self</administration>
+    </sectionInfo>
+    <question>
+      <response varName="user">
+        <free>
+          <format>text</format>
+          <length>24</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+  </section>
+  <section id="1">
+    <sectionInfo>
+      <position>title</position>
+      <text>q1</text>
+      <administration>self</administration>
+    </sectionInfo>
+    <question>
+      <text>Current status of question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1statusreviewer">
+        <fixed>
+          <category>
+            <label>not reviewed</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>rejected by reviewer</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>rejected by supervisor</label>
+            <value>3</value>
+          </category>
+          <category>
+            <label>accepted by reviewer</label>
+            <value>4</value>
+          </category>
+          <category>
+            <label>accepted by supervisor</label>
+            <value>5</value>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>Current status of question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1statussupervisor">
+        <fixed>
+          <category>
+            <label>not reviewed</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>rejected by reviewer</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>rejected by supervisor</label>
+            <value>3</value>
+          </category>
+          <category>
+            <label>accepted by reviewer</label>
+            <value>4</value>
+          </category>
+          <category>
+            <label>accepted by supervisor</label>
+            <value>5</value>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>RESEARCHER: What do you think about corruption in {TOKEN:ATTRIBUTE_1}? {user.shown}';
+     if(user == '1')
+     {
+        
+     }
+else
+{
+   $('#question{self.qid}').hide();
+}
+
+  });</text>
+      <response varName="q1researcher">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>&lt;p&gt;&#13;
+	REVIEWER: What do you think about corruption in '{TOKEN:ATTRIBUTE_1}'?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Answer Researcher: {q1researcher.NAOK}&lt;/p&gt;&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1reviewer">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>&lt;p&gt;&#13;
+	SUPERVISOR: What do you think about corruption in '{TOKEN:ATTRIBUTE_1}'?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Answer Researcher: {q1researcher.NAOK}&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Answer Reviewer: {q1reviewer.NAOK}&lt;/p&gt;&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1supervisor">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>Comment history</text>
+      <response varName="q1history">
+        <free>
+          <format>longtext</format>
+          <length>80</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>RESEARCHER: Comment on answer to question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;':&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '1')&#13;
+     {&#13;
+        &#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1researchercomment">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>REVIEWER: Comment on answer to question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1reviewercomment">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>SUPERVISOR: Comment on answer to question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1supervisorcomment">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>RESEARCHER: Your notes for question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;':&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '1')&#13;
+     {&#13;
+        &#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1researchernote">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>REVIEWER: Your notes for question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1reviewernote">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>SUPERVISOR: Your notes for question '&lt;em&gt;{q1researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q1supervisornote">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+  </section>
+  <section id="4">
+    <sectionInfo>
+      <position>title</position>
+      <text>q2</text>
+      <administration>self</administration>
+    </sectionInfo>
+    <question>
+      <text>Current status of question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2statusreviewer">
+        <fixed>
+          <category>
+            <label>not reviewed</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>rejected by reviewer</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>rejected by supervisor</label>
+            <value>3</value>
+          </category>
+          <category>
+            <label>accepted by reviewer</label>
+            <value>4</value>
+          </category>
+          <category>
+            <label>accepted by supervisor</label>
+            <value>5</value>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>Current status of question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2statussupervisor">
+        <fixed>
+          <category>
+            <label>not reviewed</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>rejected by reviewer</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>rejected by supervisor</label>
+            <value>3</value>
+          </category>
+          <category>
+            <label>accepted by reviewer</label>
+            <value>4</value>
+          </category>
+          <category>
+            <label>accepted by supervisor</label>
+            <value>5</value>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>&lt;p&gt;&#13;
+	RESEARCHER - Country: '{TOKEN:ATTRIBUTE_1}'?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Does legislation require that mining, gas and oil development projects prepare an environmental impact assessment prior to the award of any mineral rights or project implementation?&lt;/p&gt;&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '1')&#13;
+     {&#13;
+        &#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2researcher">
+        <fixed>
+          <category>
+            <label>Yes. Legislation requires elaboration of an environmental impact assessment prior to the award of any mineral rights or project implementation.</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>No. Legislation does not require preparation of an environmental impact assessment for mining, gas and oil projects.</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>Not applicable/Other. (Please explain.)</label>
+            <value>-oth-</value>
+            <contingentQuestion varName="q2researcherother">
+              <text>Not applicable/Other. (Please explain.)</text>
+              <length>24</length>
+            </contingentQuestion>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>&lt;p&gt;&#13;
+	REVIEWER - Country: '{TOKEN:ATTRIBUTE_1}'?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Does legislation require that mining, gas and oil development projects prepare an environmental impact assessment prior to the award of any mineral rights or project implementation?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Answer Researcher: {q2researcher.NAOK}&lt;/p&gt;&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2reviewer">
+        <fixed>
+          <category>
+            <label>Yes. Legislation requires elaboration of an environmental impact assessment prior to the award of any mineral rights or project implementation.</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>No. Legislation does not require preparation of an environmental impact assessment for mining, gas and oil projects.</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>Not applicable/Other. (Please explain.)</label>
+            <value>-oth-</value>
+            <contingentQuestion varName="q2reviewerother">
+              <text>Not applicable/Other. (Please explain.)</text>
+              <length>24</length>
+            </contingentQuestion>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>&lt;p&gt;&#13;
+	SUPERVISOR - Country: '{TOKEN:ATTRIBUTE_1}'?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Does legislation require that mining, gas and oil development projects prepare an environmental impact assessment prior to the award of any mineral rights or project implementation?&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Answer Researcher: {q2researcher.NAOK}&lt;/p&gt;&#13;
+&lt;p&gt;&#13;
+	Answer Reviewer: {q2reviewer.NAOK}&lt;/p&gt;&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2supervisor">
+        <fixed>
+          <category>
+            <label>Yes. Legislation requires elaboration of an environmental impact assessment prior to the award of any mineral rights or project implementation.</label>
+            <value>1</value>
+          </category>
+          <category>
+            <label>No. Legislation does not require preparation of an environmental impact assessment for mining, gas and oil projects.</label>
+            <value>2</value>
+          </category>
+          <category>
+            <label>Not applicable/Other. (Please explain.)</label>
+            <value>-oth-</value>
+            <contingentQuestion varName="q2supervisorother">
+              <text>Not applicable/Other. (Please explain.)</text>
+              <length>24</length>
+            </contingentQuestion>
+          </category>
+        </fixed>
+      </response>
+    </question>
+    <question>
+      <text>Comment history</text>
+      <response varName="q2history">
+        <free>
+          <format>longtext</format>
+          <length>80</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>RESEARCHER: Comment on answer to question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;':&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '1')&#13;
+     {&#13;
+        &#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2researchercomment">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>REVIEWER: Comment on answer to question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2reviewercomment">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>SUPERVISOR: Comment on answer to question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;': &#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2supervisorcomment">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>RESEARCHER: Your notes for question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;':&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '1')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2researchernote">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>REVIEWER: Your notes for question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;':&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '2')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2reviewernote">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+    <question>
+      <text>SUPERVISOR: Your notes for question '&lt;em&gt;{q2researcher.question}&lt;/em&gt;':&#13;
+&#13;
+&#13;
+  $(document).ready(function()&#13;
+&#13;
+  {&#13;
+     var user = '{user.shown}';&#13;
+     if(user == '3')&#13;
+     {&#13;
+        $('#question{self.qid}').show();&#13;
+     }&#13;
+else&#13;
+{&#13;
+   $('#question{self.qid}').hide();&#13;
+}&#13;
+&#13;
+  });</text>
+      <response varName="q2supervisornote">
+        <free>
+          <format>longtext</format>
+          <length>40</length>
+          <label></label>
+        </free>
+      </response>
+    </question>
+  </section>
+  <section id="3">
+    <sectionInfo>
+      <position>title</position>
+      <text>end</text>
+      <administration>self</administration>
+    </sectionInfo>
+    <question>
+      <text>{sum(if(is_empty(q1researcher.NAOK),1,0), if(is_empty(q2researcher.NAOK),1,0))}</text>
+    </question>
+  </section>
+</questionnaire>

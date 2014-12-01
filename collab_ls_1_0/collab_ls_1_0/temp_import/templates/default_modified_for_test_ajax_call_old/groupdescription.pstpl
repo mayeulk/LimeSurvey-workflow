@@ -1,0 +1,79 @@
+<br />
+<span class="group-description">{GROUPDESCRIPTION}</span>
+<br /><br />
+
+
+
+
+checks_contributor_rights_for_group.php
+<div id="checks_contributor_rights_for_group_ajax_script">
+    <script type="text/javascript" charset="utf-8">
+    // Identify the current script element NOTE: must be before $(document).ready(function()
+    var scripts = document.getElementsByTagName('script');
+    var thisScript = scripts[scripts.length - 1];
+    $(document).ready(function() {
+        // Identify the current script's parent element
+        var scriptParent = $(thisScript).parent();
+        // Pull in the remote file
+        $.ajax({
+            type: "POST",
+            url: '{TEMPLATEURL}checks_contributor_rights_for_group.php',
+            data: 'country={TOKEN:ATTRIBUTE_8}&role={TOKEN:ATTRIBUTE_1}&token={TOKEN}&surveyid={SID}&groupid={GID}',
+            error: function(xhr, status, error) { // http://stackoverflow.com/questions/1637019/how-to-get-the-jquery-ajax-error-response-text
+	      var err = eval("(" + xhr.responseText + ")");
+	      alert(err.Message);
+	    },
+            success: function(results){
+                // Load the remote file contents into the script parent element
+                $(scriptParent).append(results);
+            }
+        });
+    });
+ 
+</script>
+</div>
+
+
+
+<B>Put here an ajax call to a PHP file named show_group_history.php
+retriving the history of all changes and messages in a table called lime_questiongroup_history_xxxxxxx
+<br/>
+<div id="show_group_history_ajax_script">
+    <script type="text/javascript" charset="utf-8">
+    // Identify the current script element NOTE: must be before $(document).ready(function()
+    var scripts = document.getElementsByTagName('script');
+    var thisScript = scripts[scripts.length - 1];
+    $(document).ready(function() {
+        // Identify the current script's parent element
+        var scriptParent = $(thisScript).parent();
+        // Pull in the remote file
+        $.ajax({
+            type: "POST",
+            url: '{TEMPLATEURL}show_group_history.php',
+            data: 'country={TOKEN:ATTRIBUTE_8}&role={TOKEN:ATTRIBUTE_1}&token={TOKEN}&surveyid={SID}&groupid={GID}',
+            error: function(xhr, status, error) { // http://stackoverflow.com/questions/1637019/how-to-get-the-jquery-ajax-error-response-text
+	      var err = eval("(" + xhr.responseText + ")");
+	      alert(err.Message);
+	    },
+            success: function(results){
+                // Load the remote file contents into the script parent element
+                $(scriptParent).append(results);
+            }
+        });
+    });
+ 
+</script>
+</div>
+
+
+
+SELECT change_display_text FROM lime_questiongroup_history_xxxxx
+<br/>
+WHERE question_id like '_suveyid_X_groupid_X%'  // ending with X% allows to show the
+
+ORDER BY timestamp
+<br/>
+</B>
+{QUESTION_CODE}
+GROUPNAME {GROUPNAME}<br/>
+GROUPDESCRIPTION {GROUPDESCRIPTION}<br/>

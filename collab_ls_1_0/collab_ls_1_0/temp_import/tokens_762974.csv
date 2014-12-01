@@ -1,0 +1,3 @@
+﻿tid,firstname,lastname,email,emailstatus,token,language,validfrom,validuntil,invited,reminded,remindercount,completed,usesleft, attribute_1 <country>, attribute_3 <researcher_password>, attribute_4 <reviewer_password>, attribute_5 <supervisor_password>, attribute_6 <name_researcher>, attribute_7 <email_researcher>, attribute_8 <name_reviewer>, attribute_9 <email_reviewer>, attribute_10 <name_supervisor>, attribute_11 <email_supervisor>
+"1","","","","OK","sv43qemh59km8zh","en","","","N","N","0","N","1","Angola","123","456","789","","","","","",""
+"2","","","","OK","i4bphagu2wrurna","en","","","N","N","0","N","1","Ghana","abc","def","ghi","","","","","",""

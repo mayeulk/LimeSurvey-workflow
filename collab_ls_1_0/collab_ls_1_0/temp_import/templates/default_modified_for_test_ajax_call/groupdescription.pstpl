@@ -1,0 +1,69 @@
+<div id="checks_contributor_rights_for_group_ajax_script">
+
+<script type="text/javascript" charset="utf-8">
+
+function disableQuestions() {
+
+// FIXME maybe define in CSS that these are always disabled, and if rights are OK then enable? (just in case the AJX call goes wrong?) - unsure
+// OR if role != supervisor (cheked on token: fast? possible?), on page load disable everything first
+//alert(rights)
+// $('#limesurvey input').attr('readonly', 'true');
+// $('#limesurvey input').attr('disabled', 'true'); // the only way to prevent modifying a radio button, see: http://stackoverflow.com/a/1953030
+// to keep the selected button black, we may want to leave it checked but not disabled. Or better to use CSS, change the button as blue?
+
+// Loop over all unchecked radio buttons; set them to disabled
+// TODO check that disabled is OK for DB submission
+// a readonly element is not editable, but gets sent when the according form submits
+// a disabled element isn't editable and isn't sent on submit
+// http://stackoverflow.com/a/7730719
+
+
+$('input[type="radio"]:not(:checked)').attr('disabled', 'true')
+
+// Loop over all unchecked radio buttons; set them to disabled   (TODO check this is OK)
+$('input[type="radio"]:checked').attr('disabled', 'true')
+  .next('label') // search the next label of each button
+  .css('background-color', 'lightblue') // then change the background color color of the label
+  .css('font-weight', 'bold') // and make it bold
+  .css('font-style', 'italic')
+  .css('text-decoration', 'underline'); // and underlined (for color blind people or bad monitors)
+;
+
+$('input[type="text"], textarea').attr('readonly','readonly')
+  .css('background-color', 'lightblue');
+};
+
+    // Identify the current script element NOTE: must be before $(document).ready(function()
+    var scripts = document.getElementsByTagName('script');
+    var thisScript = scripts[scripts.length - 1];
+    $(document).ready(function() {
+        // Identify the current script's parent element
+        var scriptParent = $(thisScript).parent();
+        // Pull in the remote file
+        $.ajax({
+            type: "POST",
+            url: '{TEMPLATEURL}checks_contributor_rights_for_group.php',
+            data: 'country={TOKEN:ATTRIBUTE_8}&resource={TOKEN:ATTRIBUTE_9}&role={TOKEN:ATTRIBUTE_1}&token={TOKEN}&surveyid={SID}&groupid={GID}',
+            error: function(xhr, status, error) { // http://stackoverflow.com/questions/1637019/how-to-get-the-jquery-ajax-error-response-text
+	      var err = eval("(" + xhr.responseText + ")");
+	      alert(err.Message);
+	    },
+            success: function(results){
+                // remove the space at the end of the answer provided by echo
+                // see 
+                var rights = results.replace(/\s+/g, '');
+                if (rights != "Y"){
+                disableQuestions();
+                }
+            }
+        });
+    });
+ 
+// TODO Replace the click trigger by ajax call checking the status
+
+
+
+</script>
+
+
+</div>

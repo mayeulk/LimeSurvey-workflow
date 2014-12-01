@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="generator" content="MediaWiki 1.19.20+dfsg-0+deb7u1" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch_desc.php" title="PostgreSQL wiki (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="https://wiki.postgresql.org/api.php?action=rsd" />
+<link rel="alternate" type="application/atom+xml" title="PostgreSQL wiki Atom feed" href="/index.php?title=Special:RecentChanges&amp;feed=atom" />		<title>Automated Backup on Linux - PostgreSQL wiki</title>
+		<style type="text/css" media="screen, projection">/*<![CDATA[*/
+			@import "/skins/common/shared.css?303";
+			@import "/skins/postgresql/main.css?303";
+		/*]]>*/</style>
+		<link rel="stylesheet" type="text/css" media="print" href="/skins/common/commonPrint.css?303" />
+		<!--[if lt IE 5.5000]><style type="text/css">@import "/skins/postgresql/IE50Fixes.css?303";</style><![endif]-->
+		<!--[if IE 5.5000]><style type="text/css">@import "/skins/postgresql/IE55Fixes.css?303";</style><![endif]-->
+		<!--[if IE 6]><style type="text/css">@import "/skins/postgresql/IE60Fixes.css?303";</style><![endif]-->
+		<!--[if IE 7]><style type="text/css">@import "/skins/postgresql/IE70Fixes.css?303";</style><![endif]-->
+		<!--[if lt IE 7]><script type="text/javascript" src="/skins/common/IEFixes.js?303"></script>
+		<meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+		
+		<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Automated_Backup_on_Linux","wgTitle":"Automated Backup on Linux","wgCurRevisionId":22930,"wgArticleId":1483,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Backup"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Automated_Backup_on_Linux","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script>                
+		<script type="text/javascript" src="/skins/common/wikibits.js?303"><!-- wikibits js --></script>
+		<!-- Head Scripts -->
+<script src="https://wiki.postgresql.org/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=postgresql&amp;*"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Automated_Backup_on_Linux","wgTitle":"Automated Backup on Linux","wgCurRevisionId":22930,"wgArticleId":1483,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Backup"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Automated_Backup_on_Linux","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"postgresql","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,
+"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: wikidb:resourceloader:filter:minify-js:7:f78caffcc6ce93a340ff216b543c7e14 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><style type="text/css">/*<![CDATA[*/
+.source-bash {line-height: normal;}
+.source-bash li, .source-bash pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for bash
+ * CSS class: source-bash, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.bash.source-bash .de1, .bash.source-bash .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.bash.source-bash  {font-family:monospace;}
+.bash.source-bash .imp {font-weight: bold; color: red;}
+.bash.source-bash li, .bash.source-bash .li1 {font-weight: normal; vertical-align:top;}
+.bash.source-bash .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.bash.source-bash .li2 {font-weight: bold; vertical-align:top;}
+.bash.source-bash .kw1 {color: #000000; font-weight: bold;}
+.bash.source-bash .kw2 {color: #c20cb9; font-weight: bold;}
+.bash.source-bash .kw3 {color: #7a0874; font-weight: bold;}
+.bash.source-bash .co0 {color: #666666; font-style: italic;}
+.bash.source-bash .co1 {color: #800000;}
+.bash.source-bash .co2 {color: #cc0000; font-style: italic;}
+.bash.source-bash .co3 {color: #000000; font-weight: bold;}
+.bash.source-bash .es1 {color: #000099; font-weight: bold;}
+.bash.source-bash .es2 {color: #007800;}
+.bash.source-bash .es3 {color: #007800;}
+.bash.source-bash .es4 {color: #007800;}
+.bash.source-bash .es5 {color: #780078;}
+.bash.source-bash .es_h {color: #000099; font-weight: bold;}
+.bash.source-bash .br0 {color: #7a0874; font-weight: bold;}
+.bash.source-bash .sy0 {color: #000000; font-weight: bold;}
+.bash.source-bash .st0 {color: #ff0000;}
+.bash.source-bash .st_h {color: #ff0000;}
+.bash.source-bash .nu0 {color: #000000;}
+.bash.source-bash .re0 {color: #007800;}
+.bash.source-bash .re1 {color: #007800;}
+.bash.source-bash .re2 {color: #007800;}
+.bash.source-bash .re4 {color: #007800;}
+.bash.source-bash .re5 {color: #660033;}
+.bash.source-bash .ln-xtra, .bash.source-bash li.ln-xtra, .bash.source-bash div.ln-xtra {background-color: #ffc;}
+.bash.source-bash span.xtra { display:block; }
+
+/*]]>*/
+</style>	</head>
+<body class="mediawiki  ltr ns-0 ns-subject page-Automated_Backup_on_Linux">
+	<div id="globalWrapper">
+		<div id="column-content">
+	<div id="content">
+		<a name="top" id="top"></a>
+				<h1 class="firstHeading">Automated Backup on Linux</h1>
+		<div id="bodyContent">
+			<h3 id="siteSub">From PostgreSQL wiki</h3>
+			<div id="contentSub"></div>
+									<div id="jump-to-nav">Jump to: <a href="#column-one">navigation</a>, <a href="#searchInput">search</a></div>			<!-- start content -->
+			<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><p>Here are some scripts which will backup all databases in a cluster individually, optionally only backing up the schema for a set list.  The reason one might wish to use this over pg_dumpall is that you may only wish to restore individual databases from a backup, whereas pg_dumpall dumps a plain SQL copy into a single file.  This also provides the option of specifying which databases you only want the schema of.  The idea is to run these in a nightly cron job.
+</p>
+<ul><li> pg_backup.config - The main configuration file.  This should be the only file which needs user modifications.
+</li></ul>
+<ul><li> pg_backup.sh - The normal backup script which will go through each database and save a gzipped and/or a custom format copy of the backup into a date-based directory.
+</li></ul>
+<ul><li> pg_backup_rotated.sh - The same as above except it will delete expired backups based on the configuration.
+</li></ul>
+<h3> <span class="mw-headline" id="pg_backup.config">pg_backup.config</span></h3>
+<div dir="ltr" class="mw-geshi mw-content-ltr"><div class="bash source-bash" style="font-family:monospace;"><pre class="de1"><span class="co0">##############################</span>
+<span class="co0">## POSTGRESQL BACKUP CONFIG ##</span>
+<span class="co0">##############################</span>
+&#160;
+<span class="co0"># Optional system user to run backups as.  If the user the script is running as doesn't match this</span>
+<span class="co0"># the script terminates.  Leave blank to skip check.</span>
+<span class="re2">BACKUP_USER</span>=
+&#160;
+<span class="co0"># Optional hostname to adhere to pg_hba policies.  Will default to &quot;localhost&quot; if none specified.</span>
+<span class="re2">HOSTNAME</span>=
+&#160;
+<span class="co0"># Optional username to connect to database as.  Will default to &quot;postgres&quot; if none specified.</span>
+<span class="re2">USERNAME</span>=
+&#160;
+<span class="co0"># This dir will be created if it doesn't exist.  This must be writable by the user the script is</span>
+<span class="co0"># running as.</span>
+<span class="re2">BACKUP_DIR</span>=<span class="sy0">/</span>home<span class="sy0">/</span>backups<span class="sy0">/</span>database<span class="sy0">/</span>postgresql<span class="sy0">/</span>
+&#160;
+<span class="co0"># List of strings to match against in database name, separated by space or comma, for which we only</span>
+<span class="co0"># wish to keep a backup of the schema, not the data. Any database names which contain any of these</span>
+<span class="co0"># values will be considered candidates. (e.g. &quot;system_log&quot; will match &quot;dev_system_log_2010-01&quot;)</span>
+<span class="re2">SCHEMA_ONLY_LIST</span>=<span class="st0">&quot;&quot;</span>
+&#160;
+<span class="co0"># Will produce a custom-format backup if set to &quot;yes&quot;</span>
+<span class="re2">ENABLE_CUSTOM_BACKUPS</span>=<span class="kw2">yes</span>
+&#160;
+<span class="co0"># Will produce a gzipped plain-format backup if set to &quot;yes&quot;</span>
+<span class="re2">ENABLE_PLAIN_BACKUPS</span>=<span class="kw2">yes</span>
+&#160;
+&#160;
+<span class="co0">#### SETTINGS FOR ROTATED BACKUPS ####</span>
+&#160;
+<span class="co0"># Which day to take the weekly backup from (1-7 = Monday-Sunday)</span>
+<span class="re2">DAY_OF_WEEK_TO_KEEP</span>=<span class="nu0">5</span>
+&#160;
+<span class="co0"># Number of days to keep daily backups</span>
+<span class="re2">DAYS_TO_KEEP</span>=<span class="nu0">7</span>
+&#160;
+<span class="co0"># How many weeks to keep weekly backups</span>
+<span class="re2">WEEKS_TO_KEEP</span>=<span class="nu0">5</span>
+&#160;
+<span class="co0">######################################</span></pre></div></div>
+<h3> <span class="mw-headline" id="pg_backup.sh">pg_backup.sh</span></h3>
+<div dir="ltr" class="mw-geshi mw-content-ltr"><div class="bash source-bash" style="font-family:monospace;"><pre class="de1"><span class="co0">#!/bin/bash</span>
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">####### LOAD CONFIG #######</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">while</span> <span class="br0">&#91;</span> <span class="re4">$#</span> <span class="re5">-gt</span> 0 <span class="br0">&#93;</span>; <span class="kw1">do</span>
+        <span class="kw1">case</span> $1 <span class="kw1">in</span>
+                -c<span class="br0">&#41;</span>
+                        <span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re5">-r</span> <span class="st0">&quot;$2&quot;</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+                                <span class="kw3">source</span> <span class="st0">&quot;$2&quot;</span>
+                                <span class="kw3">shift</span> 2
+                        <span class="kw1">else</span>
+                                <span class="co1">${ECHO}</span> <span class="st0">&quot;Unreadable config file <span class="es1">\&quot;</span>$2<span class="es1">\&quot;</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+                                <span class="kw3">exit</span> 1
+                        <span class="kw1">fi</span>
+                        <span class="sy0">;;</span>
+                <span class="sy0">*</span><span class="br0">&#41;</span>
+                        <span class="co1">${ECHO}</span> <span class="st0">&quot;Unknown Option <span class="es1">\&quot;</span>$1<span class="es1">\&quot;</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+                        <span class="kw3">exit</span> 2
+                        <span class="sy0">;;</span>
+        <span class="kw1">esac</span>
+<span class="kw1">done</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re4">$#</span> = 0 <span class="br0">&#93;</span>; <span class="kw1">then</span>
+        <span class="re2">SCRIPTPATH</span>=$<span class="br0">&#40;</span><span class="kw3">cd</span> <span class="co1">${0%/*}</span> <span class="sy0">&amp;&amp;</span> <span class="kw3">pwd</span> -P<span class="br0">&#41;</span>
+        <span class="kw3">source</span> <span class="re1">$SCRIPTPATH</span><span class="sy0">/</span>pg_backup.config
+<span class="kw1">fi</span>;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">#### PRE-BACKUP CHECKS ####</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="co0"># Make sure we're running as the required backup user</span>
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="st0">&quot;<span class="es2">$BACKUP_USER</span>&quot;</span> <span class="sy0">!</span>= <span class="st0">&quot;&quot;</span> <span class="re5">-a</span> <span class="st0">&quot;<span class="es4">$(id -un)</span>&quot;</span> <span class="sy0">!</span>= <span class="st0">&quot;<span class="es2">$BACKUP_USER</span>&quot;</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+	<span class="kw3">echo</span> <span class="st0">&quot;This script must be run as <span class="es2">$BACKUP_USER</span>. Exiting.&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+	<span class="kw3">exit</span> <span class="nu0">1</span>;
+<span class="kw1">fi</span>;
+&#160;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">### INITIALISE DEFAULTS ###</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="sy0">!</span> <span class="re1">$HOSTNAME</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+	<span class="re2">HOSTNAME</span>=<span class="st0">&quot;localhost&quot;</span>
+<span class="kw1">fi</span>;
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="sy0">!</span> <span class="re1">$USERNAME</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+	<span class="re2">USERNAME</span>=<span class="st0">&quot;postgres&quot;</span>
+<span class="kw1">fi</span>;
+&#160;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">#### START THE BACKUPS ####</span>
+<span class="co0">###########################</span>
+&#160;
+&#160;
+<span class="re2">FINAL_BACKUP_DIR</span>=<span class="re1">$BACKUP_DIR</span><span class="st0">&quot;<span class="es5">`date +\%Y-\%m-\%d`</span>/&quot;</span>
+&#160;
+<span class="kw3">echo</span> <span class="st0">&quot;Making backup directory in <span class="es2">$FINAL_BACKUP_DIR</span>&quot;</span>
+&#160;
+<span class="kw1">if</span> <span class="sy0">!</span> <span class="kw2">mkdir</span> <span class="re5">-p</span> <span class="re1">$FINAL_BACKUP_DIR</span>; <span class="kw1">then</span>
+	<span class="kw3">echo</span> <span class="st0">&quot;Cannot create backup directory in <span class="es2">$FINAL_BACKUP_DIR</span>. Go and fix it!&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+	<span class="kw3">exit</span> <span class="nu0">1</span>;
+<span class="kw1">fi</span>;
+&#160;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">### SCHEMA-ONLY BACKUPS ###</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">for</span> SCHEMA_ONLY_DB <span class="kw1">in</span> <span class="co1">${SCHEMA_ONLY_LIST//,/ }</span>
+<span class="kw1">do</span>
+	<span class="re2">SCHEMA_ONLY_CLAUSE</span>=<span class="st0">&quot;<span class="es2">$SCHEMA_ONLY_CLAUSE</span> or datname ~ '<span class="es2">$SCHEMA_ONLY_DB</span>'&quot;</span>
+<span class="kw1">done</span>
+&#160;
+<span class="re2">SCHEMA_ONLY_QUERY</span>=<span class="st0">&quot;select datname from pg_database where false <span class="es2">$SCHEMA_ONLY_CLAUSE</span> order by datname;&quot;</span>
+&#160;
+<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;<span class="es1">\n</span><span class="es1">\n</span>Performing schema-only backups&quot;</span>
+<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;--------------------------------------------<span class="es1">\n</span>&quot;</span>
+&#160;
+<span class="re2">SCHEMA_ONLY_DB_LIST</span>=<span class="sy0">`</span>psql <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="re5">-At</span> <span class="re5">-c</span> <span class="st0">&quot;<span class="es2">$SCHEMA_ONLY_QUERY</span>&quot;</span> postgres<span class="sy0">`</span>
+&#160;
+<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;The following databases were matched for schema-only backup:<span class="es1">\n</span><span class="es3">${SCHEMA_ONLY_DB_LIST}</span><span class="es1">\n</span>&quot;</span>
+&#160;
+<span class="kw1">for</span> DATABASE <span class="kw1">in</span> <span class="re1">$SCHEMA_ONLY_DB_LIST</span>
+<span class="kw1">do</span>
+	<span class="kw3">echo</span> <span class="st0">&quot;Schema-only backup of <span class="es2">$DATABASE</span>&quot;</span>
+&#160;
+	<span class="kw1">if</span> <span class="sy0">!</span> pg_dump <span class="re5">-Fp</span> <span class="re5">-s</span> <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span> <span class="sy0">|</span> <span class="kw2">gzip</span> <span class="sy0">&gt;</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>_SCHEMA.sql.gz.in_progress; <span class="kw1">then</span>
+		<span class="kw3">echo</span> <span class="st0">&quot;[!!ERROR!!] Failed to backup database schema of <span class="es2">$DATABASE</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+	<span class="kw1">else</span>
+		<span class="kw2">mv</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>_SCHEMA.sql.gz.in_progress <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>_SCHEMA.sql.gz
+	<span class="kw1">fi</span>
+<span class="kw1">done</span>
+&#160;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">###### FULL BACKUPS #######</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">for</span> SCHEMA_ONLY_DB <span class="kw1">in</span> <span class="co1">${SCHEMA_ONLY_LIST//,/ }</span>
+<span class="kw1">do</span>
+	<span class="re2">EXCLUDE_SCHEMA_ONLY_CLAUSE</span>=<span class="st0">&quot;<span class="es2">$EXCLUDE_SCHEMA_ONLY_CLAUSE</span> and datname&#160;!~ '<span class="es2">$SCHEMA_ONLY_DB</span>'&quot;</span>
+<span class="kw1">done</span>
+&#160;
+<span class="re2">FULL_BACKUP_QUERY</span>=<span class="st0">&quot;select datname from pg_database where not datistemplate and datallowconn <span class="es2">$EXCLUDE_SCHEMA_ONLY_CLAUSE</span> order by datname;&quot;</span>
+&#160;
+<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;<span class="es1">\n</span><span class="es1">\n</span>Performing full backups&quot;</span>
+<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;--------------------------------------------<span class="es1">\n</span>&quot;</span>
+&#160;
+<span class="kw1">for</span> DATABASE <span class="kw1">in</span> <span class="sy0">`</span>psql <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="re5">-At</span> <span class="re5">-c</span> <span class="st0">&quot;<span class="es2">$FULL_BACKUP_QUERY</span>&quot;</span> postgres<span class="sy0">`</span>
+<span class="kw1">do</span>
+	<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$ENABLE_PLAIN_BACKUPS</span> = <span class="st0">&quot;yes&quot;</span> <span class="br0">&#93;</span>
+	<span class="kw1">then</span>
+		<span class="kw3">echo</span> <span class="st0">&quot;Plain backup of <span class="es2">$DATABASE</span>&quot;</span>
+&#160;
+		<span class="kw1">if</span> <span class="sy0">!</span> pg_dump <span class="re5">-Fp</span> <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span> <span class="sy0">|</span> <span class="kw2">gzip</span> <span class="sy0">&gt;</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.sql.gz.in_progress; <span class="kw1">then</span>
+			<span class="kw3">echo</span> <span class="st0">&quot;[!!ERROR!!] Failed to produce plain backup database <span class="es2">$DATABASE</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+		<span class="kw1">else</span>
+			<span class="kw2">mv</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.sql.gz.in_progress <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.sql.gz
+		<span class="kw1">fi</span>
+	<span class="kw1">fi</span>
+&#160;
+	<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$ENABLE_CUSTOM_BACKUPS</span> = <span class="st0">&quot;yes&quot;</span> <span class="br0">&#93;</span>
+	<span class="kw1">then</span>
+		<span class="kw3">echo</span> <span class="st0">&quot;Custom backup of <span class="es2">$DATABASE</span>&quot;</span>
+&#160;
+		<span class="kw1">if</span> <span class="sy0">!</span> pg_dump <span class="re5">-Fc</span> <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span> <span class="re5">-f</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.custom.in_progress; <span class="kw1">then</span>
+			<span class="kw3">echo</span> <span class="st0">&quot;[!!ERROR!!] Failed to produce custom backup database <span class="es2">$DATABASE</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+		<span class="kw1">else</span>
+			<span class="kw2">mv</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.custom.in_progress <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.custom
+		<span class="kw1">fi</span>
+	<span class="kw1">fi</span>
+&#160;
+<span class="kw1">done</span>
+&#160;
+<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;<span class="es1">\n</span>All database backups complete!&quot;</span></pre></div></div>
+<h3> <span class="mw-headline" id="pg_backup_rotated.sh">pg_backup_rotated.sh</span></h3>
+<div dir="ltr" class="mw-geshi mw-content-ltr"><div class="bash source-bash" style="font-family:monospace;"><pre class="de1"><span class="co0">#!/bin/bash</span>
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">####### LOAD CONFIG #######</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">while</span> <span class="br0">&#91;</span> <span class="re4">$#</span> <span class="re5">-gt</span> 0 <span class="br0">&#93;</span>; <span class="kw1">do</span>
+        <span class="kw1">case</span> $1 <span class="kw1">in</span>
+                -c<span class="br0">&#41;</span>
+                        <span class="re2">CONFIG_FILE_PATH</span>=<span class="st0">&quot;$2&quot;</span>
+                        <span class="kw3">shift</span> 2
+                        <span class="sy0">;;</span>
+                <span class="sy0">*</span><span class="br0">&#41;</span>
+                        <span class="co1">${ECHO}</span> <span class="st0">&quot;Unknown Option <span class="es1">\&quot;</span>$1<span class="es1">\&quot;</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+                        <span class="kw3">exit</span> 2
+                        <span class="sy0">;;</span>
+        <span class="kw1">esac</span>
+<span class="kw1">done</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re5">-z</span> <span class="re1">$CONFIG_FILE_PATH</span> <span class="br0">&#93;</span>&#160;; <span class="kw1">then</span>
+        <span class="re2">SCRIPTPATH</span>=$<span class="br0">&#40;</span><span class="kw3">cd</span> <span class="co1">${0%/*}</span> <span class="sy0">&amp;&amp;</span> <span class="kw3">pwd</span> -P<span class="br0">&#41;</span>
+        <span class="re2">CONFIG_FILE_PATH</span>=<span class="st0">&quot;<span class="es3">${SCRIPTPATH}</span>/pg_backup.config&quot;</span>
+<span class="kw1">fi</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="sy0">!</span> <span class="re5">-r</span> <span class="co1">${CONFIG_FILE_PATH}</span> <span class="br0">&#93;</span>&#160;; <span class="kw1">then</span>
+        <span class="kw3">echo</span> <span class="st0">&quot;Could not load config file from <span class="es3">${CONFIG_FILE_PATH}</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+        <span class="kw3">exit</span> 1
+<span class="kw1">fi</span>
+&#160;
+<span class="kw3">source</span> <span class="st0">&quot;<span class="es3">${CONFIG_FILE_PATH}</span>&quot;</span>
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">#### PRE-BACKUP CHECKS ####</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="co0"># Make sure we're running as the required backup user</span>
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$BACKUP_USER</span> <span class="sy0">!</span>= <span class="st0">&quot;&quot;</span> <span class="re5">-a</span> <span class="st0">&quot;<span class="es4">$(id -un)</span>&quot;</span> <span class="sy0">!</span>= <span class="st0">&quot;<span class="es2">$BACKUP_USER</span>&quot;</span> <span class="br0">&#93;</span>&#160;; <span class="kw1">then</span>
+	<span class="kw3">echo</span> <span class="st0">&quot;This script must be run as <span class="es2">$BACKUP_USER</span>. Exiting.&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+	<span class="kw3">exit</span> 1
+<span class="kw1">fi</span>
+&#160;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">### INITIALISE DEFAULTS ###</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="sy0">!</span> <span class="re1">$HOSTNAME</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+	<span class="re2">HOSTNAME</span>=<span class="st0">&quot;localhost&quot;</span>
+<span class="kw1">fi</span>;
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="sy0">!</span> <span class="re1">$USERNAME</span> <span class="br0">&#93;</span>; <span class="kw1">then</span>
+	<span class="re2">USERNAME</span>=<span class="st0">&quot;postgres&quot;</span>
+<span class="kw1">fi</span>;
+&#160;
+&#160;
+<span class="co0">###########################</span>
+<span class="co0">#### START THE BACKUPS ####</span>
+<span class="co0">###########################</span>
+&#160;
+<span class="kw1">function</span> perform_backups<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+	<span class="re2">SUFFIX</span>=$1
+	<span class="re2">FINAL_BACKUP_DIR</span>=<span class="re1">$BACKUP_DIR</span><span class="st0">&quot;<span class="es5">`date +\%Y-\%m-\%d`</span><span class="es2">$SUFFIX</span>/&quot;</span>
+&#160;
+	<span class="kw3">echo</span> <span class="st0">&quot;Making backup directory in <span class="es2">$FINAL_BACKUP_DIR</span>&quot;</span>
+&#160;
+	<span class="kw1">if</span> <span class="sy0">!</span> <span class="kw2">mkdir</span> <span class="re5">-p</span> <span class="re1">$FINAL_BACKUP_DIR</span>; <span class="kw1">then</span>
+		<span class="kw3">echo</span> <span class="st0">&quot;Cannot create backup directory in <span class="es2">$FINAL_BACKUP_DIR</span>. Go and fix it!&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+		<span class="kw3">exit</span> <span class="nu0">1</span>;
+	<span class="kw1">fi</span>;
+&#160;
+&#160;
+	<span class="co0">###########################</span>
+	<span class="co0">### SCHEMA-ONLY BACKUPS ###</span>
+	<span class="co0">###########################</span>
+&#160;
+	<span class="kw1">for</span> SCHEMA_ONLY_DB <span class="kw1">in</span> <span class="co1">${SCHEMA_ONLY_LIST//,/ }</span>
+	<span class="kw1">do</span>
+	        <span class="re2">SCHEMA_ONLY_CLAUSE</span>=<span class="st0">&quot;<span class="es2">$SCHEMA_ONLY_CLAUSE</span> or datname ~ '<span class="es2">$SCHEMA_ONLY_DB</span>'&quot;</span>
+	<span class="kw1">done</span>
+&#160;
+	<span class="re2">SCHEMA_ONLY_QUERY</span>=<span class="st0">&quot;select datname from pg_database where false <span class="es2">$SCHEMA_ONLY_CLAUSE</span> order by datname;&quot;</span>
+&#160;
+	<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;<span class="es1">\n</span><span class="es1">\n</span>Performing schema-only backups&quot;</span>
+	<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;--------------------------------------------<span class="es1">\n</span>&quot;</span>
+&#160;
+	<span class="re2">SCHEMA_ONLY_DB_LIST</span>=<span class="sy0">`</span>psql <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="re5">-At</span> <span class="re5">-c</span> <span class="st0">&quot;<span class="es2">$SCHEMA_ONLY_QUERY</span>&quot;</span> postgres<span class="sy0">`</span>
+&#160;
+	<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;The following databases were matched for schema-only backup:<span class="es1">\n</span><span class="es3">${SCHEMA_ONLY_DB_LIST}</span><span class="es1">\n</span>&quot;</span>
+&#160;
+	<span class="kw1">for</span> DATABASE <span class="kw1">in</span> <span class="re1">$SCHEMA_ONLY_DB_LIST</span>
+	<span class="kw1">do</span>
+	        <span class="kw3">echo</span> <span class="st0">&quot;Schema-only backup of <span class="es2">$DATABASE</span>&quot;</span>
+&#160;
+	        <span class="kw1">if</span> <span class="sy0">!</span> pg_dump <span class="re5">-Fp</span> <span class="re5">-s</span> <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span> <span class="sy0">|</span> <span class="kw2">gzip</span> <span class="sy0">&gt;</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>_SCHEMA.sql.gz.in_progress; <span class="kw1">then</span>
+	                <span class="kw3">echo</span> <span class="st0">&quot;[!!ERROR!!] Failed to backup database schema of <span class="es2">$DATABASE</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+	        <span class="kw1">else</span>
+	                <span class="kw2">mv</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>_SCHEMA.sql.gz.in_progress <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>_SCHEMA.sql.gz
+	        <span class="kw1">fi</span>
+	<span class="kw1">done</span>
+&#160;
+&#160;
+	<span class="co0">###########################</span>
+	<span class="co0">###### FULL BACKUPS #######</span>
+	<span class="co0">###########################</span>
+&#160;
+	<span class="kw1">for</span> SCHEMA_ONLY_DB <span class="kw1">in</span> <span class="co1">${SCHEMA_ONLY_LIST//,/ }</span>
+	<span class="kw1">do</span>
+		<span class="re2">EXCLUDE_SCHEMA_ONLY_CLAUSE</span>=<span class="st0">&quot;<span class="es2">$EXCLUDE_SCHEMA_ONLY_CLAUSE</span> and datname&#160;!~ '<span class="es2">$SCHEMA_ONLY_DB</span>'&quot;</span>
+	<span class="kw1">done</span>
+&#160;
+	<span class="re2">FULL_BACKUP_QUERY</span>=<span class="st0">&quot;select datname from pg_database where not datistemplate and datallowconn <span class="es2">$EXCLUDE_SCHEMA_ONLY_CLAUSE</span> order by datname;&quot;</span>
+&#160;
+	<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;<span class="es1">\n</span><span class="es1">\n</span>Performing full backups&quot;</span>
+	<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;--------------------------------------------<span class="es1">\n</span>&quot;</span>
+&#160;
+	<span class="kw1">for</span> DATABASE <span class="kw1">in</span> <span class="sy0">`</span>psql <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="re5">-At</span> <span class="re5">-c</span> <span class="st0">&quot;<span class="es2">$FULL_BACKUP_QUERY</span>&quot;</span> postgres<span class="sy0">`</span>
+	<span class="kw1">do</span>
+		<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$ENABLE_PLAIN_BACKUPS</span> = <span class="st0">&quot;yes&quot;</span> <span class="br0">&#93;</span>
+		<span class="kw1">then</span>
+			<span class="kw3">echo</span> <span class="st0">&quot;Plain backup of <span class="es2">$DATABASE</span>&quot;</span>
+&#160;
+			<span class="kw1">if</span> <span class="sy0">!</span> pg_dump <span class="re5">-Fp</span> <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span> <span class="sy0">|</span> <span class="kw2">gzip</span> <span class="sy0">&gt;</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.sql.gz.in_progress; <span class="kw1">then</span>
+				<span class="kw3">echo</span> <span class="st0">&quot;[!!ERROR!!] Failed to produce plain backup database <span class="es2">$DATABASE</span>&quot;</span> 1<span class="sy0">&gt;&amp;</span>2
+			<span class="kw1">else</span>
+				<span class="kw2">mv</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.sql.gz.in_progress <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.sql.gz
+			<span class="kw1">fi</span>
+		<span class="kw1">fi</span>
+&#160;
+		<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$ENABLE_CUSTOM_BACKUPS</span> = <span class="st0">&quot;yes&quot;</span> <span class="br0">&#93;</span>
+		<span class="kw1">then</span>
+			<span class="kw3">echo</span> <span class="st0">&quot;Custom backup of <span class="es2">$DATABASE</span>&quot;</span>
+&#160;
+			<span class="kw1">if</span> <span class="sy0">!</span> pg_dump <span class="re5">-Fc</span> <span class="re5">-h</span> <span class="st0">&quot;<span class="es2">$HOSTNAME</span>&quot;</span> <span class="re5">-U</span> <span class="st0">&quot;<span class="es2">$USERNAME</span>&quot;</span> <span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span> <span class="re5">-f</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.custom.in_progress; <span class="kw1">then</span>
+				<span class="kw3">echo</span> <span class="st0">&quot;[!!ERROR!!] Failed to produce custom backup database <span class="es2">$DATABASE</span>&quot;</span>
+			<span class="kw1">else</span>
+				<span class="kw2">mv</span> <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.custom.in_progress <span class="re1">$FINAL_BACKUP_DIR</span><span class="st0">&quot;<span class="es2">$DATABASE</span>&quot;</span>.custom
+			<span class="kw1">fi</span>
+		<span class="kw1">fi</span>
+&#160;
+	<span class="kw1">done</span>
+&#160;
+	<span class="kw3">echo</span> <span class="re5">-e</span> <span class="st0">&quot;<span class="es1">\n</span>All database backups complete!&quot;</span>
+<span class="br0">&#125;</span>
+&#160;
+<span class="co0"># MONTHLY BACKUPS</span>
+&#160;
+<span class="re2">DAY_OF_MONTH</span>=<span class="sy0">`</span><span class="kw2">date</span> +<span class="sy0">%</span>d<span class="sy0">`</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$DAY_OF_MONTH</span> <span class="re5">-eq</span> 1 <span class="br0">&#93;</span>;
+<span class="kw1">then</span>
+	<span class="co0"># Delete all expired monthly directories</span>
+	<span class="kw2">find</span> <span class="re1">$BACKUP_DIR</span> <span class="re5">-maxdepth</span> 1 <span class="re5">-name</span> <span class="st0">&quot;*-monthly&quot;</span> <span class="re5">-exec</span> <span class="kw2">rm</span> <span class="re5">-rf</span> <span class="st_h">'{}'</span> <span class="st_h">';'</span>
+&#160;
+	perform_backups <span class="st0">&quot;-monthly&quot;</span>
+&#160;
+	<span class="kw3">exit</span> <span class="nu0">0</span>;
+<span class="kw1">fi</span>
+&#160;
+<span class="co0"># WEEKLY BACKUPS</span>
+&#160;
+<span class="re2">DAY_OF_WEEK</span>=<span class="sy0">`</span><span class="kw2">date</span> +<span class="sy0">%</span>u<span class="sy0">`</span> <span class="co0">#1-7 (Monday-Sunday)</span>
+<span class="re2">EXPIRED_DAYS</span>=<span class="sy0">`</span><span class="kw2">expr</span> $<span class="br0">&#40;</span><span class="br0">&#40;</span><span class="br0">&#40;</span><span class="re1">$WEEKS_TO_KEEP</span> <span class="sy0">*</span> 7<span class="br0">&#41;</span> + 1<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">`</span>
+&#160;
+<span class="kw1">if</span> <span class="br0">&#91;</span> <span class="re1">$DAY_OF_WEEK</span> = <span class="re1">$DAY_OF_WEEK_TO_KEEP</span> <span class="br0">&#93;</span>;
+<span class="kw1">then</span>
+	<span class="co0"># Delete all expired weekly directories</span>
+	<span class="kw2">find</span> <span class="re1">$BACKUP_DIR</span> <span class="re5">-maxdepth</span> 1 <span class="re5">-mtime</span> +<span class="re1">$EXPIRED_DAYS</span> <span class="re5">-name</span> <span class="st0">&quot;*-weekly&quot;</span> <span class="re5">-exec</span> <span class="kw2">rm</span> <span class="re5">-rf</span> <span class="st_h">'{}'</span> <span class="st_h">';'</span>
+&#160;
+	perform_backups <span class="st0">&quot;-weekly&quot;</span>
+&#160;
+	<span class="kw3">exit</span> <span class="nu0">0</span>;
+<span class="kw1">fi</span>
+&#160;
+<span class="co0"># DAILY BACKUPS</span>
+&#160;
+<span class="co0"># Delete daily backups 7 days old or more</span>
+<span class="kw2">find</span> <span class="re1">$BACKUP_DIR</span> <span class="re5">-maxdepth</span> 1 <span class="re5">-mtime</span> +<span class="re1">$DAYS_TO_KEEP</span> <span class="re5">-name</span> <span class="st0">&quot;*-daily&quot;</span> <span class="re5">-exec</span> <span class="kw2">rm</span> <span class="re5">-rf</span> <span class="st_h">'{}'</span> <span class="st_h">';'</span>
+&#160;
+perform_backups <span class="st0">&quot;-daily&quot;</span></pre></div></div>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 32/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:1483-0!*!*!!*!*!* and timestamp 20141005174251 -->
+</div><div class="printfooter">
+Retrieved from "<a href="https://wiki.postgresql.org/index.php?title=Automated_Backup_on_Linux&amp;oldid=22930">https://wiki.postgresql.org/index.php?title=Automated_Backup_on_Linux&amp;oldid=22930</a>"</div>
+			<div id="catlinks"><div id='catlinks' class='catlinks'><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/wiki/Category:Backup" title="Category:Backup">Backup</a></li></ul></div></div></div>			<!-- end content -->
+			<div class="visualClear"></div>
+		</div>
+	</div>
+		</div>
+		<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+					 <li id="ca-nstab-main" class="selected"><a href="/wiki/Automated_Backup_on_Linux"Array>Page</a></li>
+					 <li id="ca-talk"><a href="/wiki/Talk:Automated_Backup_on_Linux"Array>Discussion</a></li>
+					 <li id="ca-viewsource"><a href="/index.php?title=Automated_Backup_on_Linux&amp;action=edit"Array>View source</a></li>
+					 <li id="ca-history"><a href="/index.php?title=Automated_Backup_on_Linux&amp;action=history"Array>History</a></li>
+				</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="/index.php?title=Special:UserLogin&amp;returnto=Automated+Backup+on+Linux"Array>Log in</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+		<a style="background-image: url(/skins/postgresql/slonik.png);" href="/wiki/Main_Page"Array></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+		<h5>Navigation</h5>
+		<div class='pBody'>
+			<ul>
+				<li id="n-mainpage"><a href="/wiki/Main_Page"Array>Main Page</a></li>
+				<li id="n-randompage"><a href="/wiki/Special:Random"Array>Random page</a></li>
+				<li id="n-recentchanges"><a href="/wiki/Special:RecentChanges"Array>Recent changes</a></li>
+				<li id="n-help"><a href="/wiki/Help:Contents"Array>Help</a></li>
+			</ul>
+		</div>
+	</div>
+		<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="/wiki/Special:Search" id="searchform"><div>
+				<input id="searchInput" name="search" type="text"Array value="" />
+				<input type='submit' name="go" class="searchButton" id="searchGoButton"	value="Go"Array />&nbsp;
+				<input type='submit' name="fulltext" class="searchButton" id="mw-searchButton" value="Search"Array />
+			</div></form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/Automated_Backup_on_Linux"Array>What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/Automated_Backup_on_Linux"Array>Related changes</a></li>
+<li id="t-specialpages"><a href="/wiki/Special:SpecialPages"Array>Special pages</a></li>
+				<li id="t-print"><a href="/index.php?title=Automated_Backup_on_Linux&amp;printable=yes"Array>Printable version</a></li>				<li id="t-permalink"><a href="/index.php?title=Automated_Backup_on_Linux&amp;oldid=22930"Array>Permanent link</a></li>			</ul>
+		</div>
+	</div>
+		</div><!-- end of the left (by default at least) column -->
+			<div class="visualClear"></div>
+			<div id="footer">
+				<div id="f-poweredbyico"><a href="//www.mediawiki.org/"><img src="/skins/common/images/poweredby_mediawiki_88x31.png" height="31" width="88" alt="Powered by MediaWiki" /></a></div>
+			<ul id="f-list">
+				<li id="lastmod"> This page was last modified on 1 August 2014, at 13:58.</li>
+				<li id="privacy"><a href="/wiki/PostgreSQL_wiki:Privacy_policy" title="PostgreSQL wiki:Privacy policy">Privacy policy</a></li>
+				<li id="about"><a href="/wiki/PostgreSQL_wiki:About" title="PostgreSQL wiki:About">About PostgreSQL wiki</a></li>
+				<li id="disclaimer"><a href="/wiki/PostgreSQL_wiki:General_disclaimer" title="PostgreSQL wiki:General disclaimer">Disclaimers</a></li>
+			</ul>
+		</div>
+		
+	<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script>
+<script src="https://wiki.postgresql.org/load.php?debug=false&amp;lang=en&amp;modules=site&amp;only=scripts&amp;skin=postgresql&amp;*"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-1345454-5");
+pageTracker._trackPageview();
+</script></div>
+<!-- Served in 0.128 secs. --></body></html>

@@ -1,0 +1,67 @@
+<!-- question.pstpl  -  QUESTION: {QUESTION};   SGQ {SGQ}: Survey SID: {SID};   Group GID: {GID};  Question QID: {QID};  TOKEN: {TOKEN};   QUESTION_CLASS: {QUESTION_CLASS};  QUESTION_CODE {QUESTION_CODE}<br/>
+-->
+
+
+<div {QUESTION_ESSENTIALS} class="{QUESTION_CLASS}{QUESTION_MAN_CLASS}{QUESTION_INPUT_ERROR_CLASS}">
+    <table class="question-wrapper">
+        <tr>
+            <td class="questiontext">
+                <span class="asterisk">{QUESTION_MANDATORY}</span><span class="qnumcode">{QUESTION_NUMBER} {QUESTION_CODE} </span>{QUESTION_TEXT}<br /><span class="questionhelp">{QUESTION_HELP}</span>
+                {QUESTION_MAN_MESSAGE}
+                {QUESTION_VALID_MESSAGE}
+                {QUESTION_FILE_VALID_MESSAGE}
+            </td>
+        </tr>
+        <tr>
+            <td class="answer">
+                {ANSWER}
+            </td>
+        </tr>
+        <tr>
+            <td class="survey-question-help">
+                {QUESTIONHELP}
+            </td>
+        </tr>
+        <tr>
+                <div id="question_history_ajax_script">
+<div id="show_question_history_ajax_script">
+    <script type="text/javascript" charset="utf-8">
+    // Identify the current script element NOTE: must be before $(document).ready(function()
+ 
+ // FIXME: when the following is uncommented, other similar scripts above do not work anymore
+ //   var scripts = document.getElementsByTagName('script');
+ //   var show_question_historyScript = scripts[scripts.length - 1];
+    /*
+     $(document).ready(function() {
+        // Identify the current script's parent element
+        var scriptParent = $(thisScript).parent();
+        // Pull in the remote file
+        $.ajax({
+            type: "POST",
+            url: '{TEMPLATEURL}show_question_history.php',
+            data: 'country={TOKEN:ATTRIBUTE_8}&role={TOKEN:ATTRIBUTE_1}&token={TOKEN}&surveyid={SID}&groupid={GID}&questionid={QID}',
+            error: function(xhr, status, error) { // http://stackoverflow.com/questions/1637019/how-to-get-the-jquery-ajax-error-response-text
+	      var err = eval("(" + xhr.responseText + ")");
+	      alert(err.Message);
+	    },
+            success: function(results){
+                // Load the remote file contents into the script parent element
+                $(scriptParent).append(results);
+            }
+        });
+    });
+ */
+ 
+</script>
+</div>
+</tr>
+        
+        
+        
+        
+        
+
+        
+        
+    </table>
+</div>

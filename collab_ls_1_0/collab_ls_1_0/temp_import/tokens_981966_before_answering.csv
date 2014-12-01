@@ -1,0 +1,2 @@
+﻿tid,firstname,lastname,email,emailstatus,token,language,validfrom,validuntil,invited,reminded,remindercount,completed,usesleft, attribute_1 <country>, attribute_2 <email reviewer>, attribute_3 <email supervisor>, attribute_4 <attribute_4>, attribute_5 <attribute_5>
+"1","Marcel","Minke","marcel.minke@limesurvey.org","OK","1","en","","","N","N","0","N","72","Germany","maziminke@web.de","mail@marcel-minke.de","",""

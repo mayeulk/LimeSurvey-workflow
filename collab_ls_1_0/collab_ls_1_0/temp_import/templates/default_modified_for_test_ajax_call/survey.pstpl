@@ -1,0 +1,23 @@
+<table class="survey-header-table">
+    <tr>
+        <td class="survey-description">
+            <h2>{SURVEYNAME}</h2><br />
+            <p>{SURVEYDESCRIPTION}</p>
+        </td>
+    </tr>
+    <tr>
+        <td class="graph">
+            {PERCENTCOMPLETE}
+        </td>
+    </tr>
+    <tr>
+        <td class="language-changer">
+            {LANGUAGECHANGER}
+        </td>
+        </tr>
+    <tr>
+        <td>
+        Country: {TOKEN:ATTRIBUTE_8} - Resource: {TOKEN:ATTRIBUTE_9} - Logged in as {TOKEN:FIRSTNAME} {TOKEN:LASTNAME} (role: {TOKEN:ATTRIBUTE_1})
+        </td>
+    </tr>
+</table>

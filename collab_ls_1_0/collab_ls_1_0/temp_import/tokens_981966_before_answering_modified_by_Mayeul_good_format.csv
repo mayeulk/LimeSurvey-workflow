@@ -1,0 +1,4 @@
+"tid","firstname","lastname","email","emailstatus","token","language","validfrom","validuntil","invited","reminded","remindercount","completed","usesleft"," attribute_1 <country>"," attribute_2 <email reviewer>"," attribute_3 <email supervisor>"," attribute_4 <attribute_4>"," attribute_5 <attribute_5>"
+2,"Mayeul","Kauffmann","rgi_researcher_2015@yahoo.com","OK",2,"en",,,"N","N",0,"N",72,"Germany","mayeul.kauffmann@free.fr","mkauffmann@resourcegovernance.org",,
+3,"Mayeul","Kauffmann","rgi_researcher_2015@yahoo.com","OK",3,"en",,,"N","N",0,"N",72,"France","mayeul.kauffmann@free.fr","mkauffmann@resourcegovernance.org",,
+4,"Mayeul","Kauffmann","rgi_researcher_2015@yahoo.com","OK",4,"en",,,"N","N",0,"N",72,"Italy","mayeul.kauffmann@free.fr","mkauffmann@resourcegovernance.org",,

@@ -1,0 +1,7 @@
+tid,firstname,lastname,email,emailstatus,token,language,validfrom,validuntil,invited,reminded,remindercount,completed,usesleft, Attribute_1 <role>, Attribute_2 <role_sort_order>, Attribute_3 <role_priority>, Attribute_4 <contributor_can_access>, Attribute_5 <comment_on_contributor>, Attribute_7 <instructions_to_contributor>, Attribute_8 <country>, Attribute_9 <country_step>, Attribute_10 <comment_on_country_step>
+1,,,,OK,abc,en,,,N,N,0,N,1,researcher,10,10,,,,Angola,Step 01.0 - not started,
+2,,,,OK,def,en,,,N,N,0,N,1,reviewer,20,20,,Will be on leave in March,,Angola,Step 01.0 - not started,
+3,,,,OK,ghi,en,,,N,N,0,N,1,supervisor,30,100,,,,Angola,Step 01.0 - not started,
+4,,,,OK,ABC,en,,,N,N,0,N,1,researcher,10,10,,,,Ghana,Step 01.0 - not started,
+5,,,,OK,DEF,en,,,N,N,0,N,1,reviewer,20,20,,,,Ghana,Step 01.0 - not started,
+6,,,,OK,GHI,en,,,N,N,0,N,1,supervisor,30,100,,,,Ghana,Step 01.0 - not started,
